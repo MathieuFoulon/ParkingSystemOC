@@ -1,7 +1,6 @@
 package com.parkit.parkingsystem.integration;
 
-import com.parkit.parkingsystem.constants.DBConstants;
-import com.parkit.parkingsystem.constants.Fare;
+
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
@@ -18,14 +17,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.*;
 
-import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
 
-    private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private static final DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
@@ -78,7 +76,7 @@ public class ParkingDataBaseIT {
 
                 System.out.format("\nTEST PARKING A CAR \n id : %s, parking number : %s, : vehicle reg number : %s, available : %s \n\n", id, parkingNumber, vehicleRegNumber, available);
 
-                // vehicle in parking spot : available false
+                // vehicle in parking spot : available = false
                 assertFalse(available);
             }
             st.close();
@@ -86,7 +84,6 @@ public class ParkingDataBaseIT {
         } catch (Exception e) {
             System.err.println("Exception : " + e.getMessage());
         }
-
 
     }
 
@@ -120,7 +117,7 @@ public class ParkingDataBaseIT {
 
 
                 System.out.format("\nTEST PARKING LOT EXIT : \n id : %s, parking number : %s, vehicle reg number : %s, available : %s, in time: %s %s out time : %s %s, fare : %s \n\n", id, parkingNumber, vehicleRegNumber, available, inDate, inTime, outDate, outTime, fare);
-                // vehicle is out : available true
+                // vehicle is out : available = true
                 assertTrue(available);
                 // stayed less than 0.5 hours : fare = 0
                 assertEquals(0, fare);
