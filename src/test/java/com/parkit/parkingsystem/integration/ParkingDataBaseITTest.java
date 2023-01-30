@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ParkingDataBaseIT {
+public class ParkingDataBaseITTest {
 
     private static final DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
@@ -74,7 +74,14 @@ public class ParkingDataBaseIT {
                 boolean available = rs.getBoolean("AVAILABLE");
 
 
-                System.out.format("\nTEST PARKING A CAR \n id : %s, parking number : %s, : vehicle reg number : %s, available : %s \n\n", id, parkingNumber, vehicleRegNumber, available);
+                System.out.format("\n" +
+                                "[------] TEST PARKING A CAR : DUMP FROM DB [------] \n" +
+                                " id : %s, parking number : %s, : vehicle reg number : %s, available : %s \n" +
+                                "\n",
+                        id,
+                        parkingNumber,
+                        vehicleRegNumber,
+                        available);
 
                 // vehicle in parking spot : available = false
                 assertFalse(available);
@@ -109,17 +116,27 @@ public class ParkingDataBaseIT {
                 int parkingNumber = rs.getInt("PARKING_NUMBER");
                 String vehicleRegNumber = rs.getString("VEHICLE_REG_NUMBER");
                 boolean available = rs.getBoolean("AVAILABLE");
-                Date inDate = rs.getDate("IN_TIME");
-                Time inTime = rs.getTime("IN_TIME");
-                Date outDate = rs.getDate("OUT_TIME");
-                Time outTime = rs.getTime("OUT_TIME");
+                Timestamp inTimestamp = rs.getTimestamp("IN_TIME");
+                Timestamp outTimestamp = rs.getTimestamp("OUT_TIME");
                 int fare = rs.getInt("PRICE");
 
 
-                System.out.format("\nTEST PARKING LOT EXIT : \n id : %s, parking number : %s, vehicle reg number : %s, available : %s, in time: %s %s out time : %s %s, fare : %s \n\n", id, parkingNumber, vehicleRegNumber, available, inDate, inTime, outDate, outTime, fare);
-                // vehicle is out : available = true
+                System.out.format("\n" +
+                                "[------] TEST PARKING LOT EXIT : DUMP FROM DB [------]\n" +
+                                " id : %s, parking number : %s, vehicle reg number : %s, available : %s, in timestamp: %s  out timestamp : %s , fare : %s \n" +
+                                "\n",
+                        id,
+                        parkingNumber,
+                        vehicleRegNumber,
+                        available,
+                        inTimestamp,
+                        outTimestamp,
+                        fare);
+                // vehicle is out : available = true ?
                 assertTrue(available);
-                // stayed less than 0.5 hours : fare = 0
+                // OUT_TIME populated ?
+                assertNotNull(outTimestamp);
+                // stayed less than 0.5 hours : fare = 0 ?
                 assertEquals(0, fare);
             }
             st.close();
@@ -128,5 +145,7 @@ public class ParkingDataBaseIT {
             System.err.println("Exception : " + e.getMessage());
         }
     }
+
+
 
 }
