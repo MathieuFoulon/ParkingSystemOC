@@ -99,7 +99,7 @@ public class FareCalculatorServiceTest {
     @Test
     public void calculateFareBikeWithLessThan30minutesParkingTime(){
         Date inTime = new Date();
-        inTime.setTime((long) (System.currentTimeMillis() - (  0.49 * 60 * 60 * 1000)));//less than 30 minutes ( less than 0.5 hours) parking time should give 24 * parking fare per hour
+        inTime.setTime((long) (System.currentTimeMillis() - (  0.49 * 60 * 60 * 1000)));
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
 
