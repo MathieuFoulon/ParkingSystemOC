@@ -16,9 +16,9 @@ public class FareCalculatorService {
         int numberOfParkingAccess = ticketDAO.countTicket(ticket.getVehicleRegNumber());
 
         // starting with milliseconds, then seconds, minutes, hours ( a bit long but more understandable )
-        long inHour = ticket.getInTime().getTime();
-        long outHour = ticket.getOutTime().getTime();
-        long difOutAndInSec = ((outHour - inHour )/ 1000 );
+        long inTimestamp = ticket.getInTime().getTime();
+        long outTimestamp = ticket.getOutTime().getTime();
+        long difOutAndInSec = ((outTimestamp - inTimestamp )/ 1000 );
         float difOutAndInMin = (float)difOutAndInSec / 60;
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
@@ -30,7 +30,7 @@ public class FareCalculatorService {
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
-                if (numberOfParkingAccess > Fare.ACCESS_TO_DISCOUNT_5) {
+                if (numberOfParkingAccess >= Fare.ACCESS_TO_DISCOUNT_5) {
                     ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR) * Fare.DISCOUNT_5);
                 } else {
                     ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
@@ -38,7 +38,7 @@ public class FareCalculatorService {
                 break;
             }
             case BIKE: {
-                if (numberOfParkingAccess > Fare.ACCESS_TO_DISCOUNT_5) {
+                if (numberOfParkingAccess >= Fare.ACCESS_TO_DISCOUNT_5) {
                     ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR) * Fare.DISCOUNT_5);
                 } else {
                     ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
